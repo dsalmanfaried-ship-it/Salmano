@@ -1,7 +1,9 @@
-/* sw.js — تنزيل من كروم + شغل أوفلاين + يضيف inapp.js لـ index.html تلقائي (من غير ما تعدّل index.html) */
-const V = 'deen-v5';
-const CORE = ['./', 'index.html', 'quran.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'inapp.js', 'extra-data.js', 'images.js'];
-const TAG = '<script src="inapp.js"></script>';
+/* sw.js — تنزيل من كروم + شغل أوفلاين + يحمّل الإضافات (inapp / brand) لوحده من غير ما تعدّل index.html */
+const V = 'deen-v6';
+const CORE = ['./', 'index.html', 'quran.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png',
+  'inapp.js', 'brand.js', 'brand.css', 'logo-mark.svg', 'extra-data.js', 'images.js'];
+const HEAD = '<link rel="stylesheet" href="brand.css"><script src="brand.js"></script>';
+const TAIL = '<script src="inapp.js"></script>';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -14,13 +16,14 @@ self.addEventListener('activate', e => {
   );
 });
 
-/* يجيب الصفحة الرئيسية ويضيف سطر inapp.js قبل </body> (لو مش موجود) */
+/* يجيب الصفحة الرئيسية ويضيف الملفات اللي ناقصة (لو أنت ضفتها بإيدك مش هيكررها) */
 async function mainPage(r) {
   const res = await fetch(r);
   if (!res.ok || !(res.headers.get('content-type') || '').includes('text/html')) return res;
-  const t = await res.text();
-  const body = (t.includes('inapp.js') || !t.includes('</body>')) ? t : t.replace('</body>', TAG + '\n</body>');
-  return new Response(body, { status: res.status, statusText: res.statusText, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+  let t = await res.text();
+  if (!t.includes('brand.css') && t.includes('</head>')) t = t.replace('</head>', HEAD + '\n</head>');
+  if (!t.includes('inapp.js') && t.includes('</body>')) t = t.replace('</body>', TAIL + '\n</body>');
+  return new Response(t, { status: res.status, statusText: res.statusText, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
 }
 
 self.addEventListener('fetch', e => {

@@ -1,0 +1,41 @@
+/* ==========================================================================
+   brand.css — لوجو «اسمع دين · esma3 Deen» + ضبط الحركة والجرافيك
+   (بيتحمّل تلقائي من sw.js، ومفيش حاجة في index.html بتتغيّر)
+   ========================================================================== */
+
+/* ---------- ١) اللوجو (هيدر) ---------- */
+.logo.bl,.top .logo.bl{display:inline-flex;align-items:center;gap:9px;font-size:0;line-height:1;white-space:nowrap;
+  background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:inherit!important;animation:none!important}
+.logo.bl .bmk{width:36px;height:36px;flex:none;overflow:visible;filter:drop-shadow(0 2px 8px #d9b86c33)}
+.logo.bl .bt{display:flex;flex-direction:column;align-items:center;gap:3px}
+.logo.bl .bt b{font:700 25px/1.05 Amiri,"Noto Naskh Arabic",serif;
+  background:linear-gradient(90deg,#d9b86c,#fff3c4 45%,#d9b86c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo.bl .bt small{font:700 9.5px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.34em;margin-inline-end:-.34em;direction:ltr;color:#8fa39b}
+
+/* ---------- ٢) السبلاتش: حركة متسلسلة احترافية ---------- */
+#splash:has(.logo:not(.bl)) .logo:not(.bl){opacity:0}        /* ما يظهرش الشكل القديم لحظة التحميل */
+@keyframes bSp{0%,70%{opacity:1;transform:none}100%{opacity:0;transform:scale(1.05);visibility:hidden}}
+@keyframes bcIn{from{opacity:0;transform:scale(.55) rotate(-24deg)}to{opacity:1;transform:none}}
+@keyframes bwIn{from{opacity:1;stroke-dasharray:1;stroke-dashoffset:1}to{opacity:1;stroke-dasharray:1;stroke-dashoffset:0}}
+@keyframes bUp{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:none}}
+@keyframes bLt{from{opacity:0;letter-spacing:.9em}to{opacity:1;letter-spacing:.5em}}
+@keyframes bGlow{0%,100%{opacity:.0}50%{opacity:.55}}
+#splash{animation:bSp 2.4s cubic-bezier(.4,0,.2,1) forwards!important;background:radial-gradient(60% 45% at 50% 46%,#16221d 0%,var(--bg) 70%)}
+#splash .logo.bl{flex-direction:column;gap:16px;position:relative}
+#splash .logo.bl::before{content:"";position:absolute;width:220px;height:220px;top:-34px;left:50%;margin-left:-110px;border-radius:50%;
+  background:radial-gradient(circle,#d9b86c40,transparent 68%);animation:bGlow 2.2s ease-in-out .3s 1 both;pointer-events:none}
+#splash .bmk{width:118px;height:118px;position:relative}
+#splash .bc{transform-box:fill-box;transform-origin:center;animation:bcIn .75s cubic-bezier(.34,1.4,.5,1) both}
+#splash .bw{animation:bwIn .5s cubic-bezier(.3,.7,.3,1) both}
+#splash .bw1{animation-delay:.5s}#splash .bw2{animation-delay:.65s}#splash .bw3{animation-delay:.8s}
+#splash .bt b{font-size:48px;animation:bUp .6s cubic-bezier(.22,.8,.3,1) .6s both}
+#splash .bt small{font-size:13px;animation:bLt .9s cubic-bezier(.22,.8,.3,1) .9s both}
+
+/* ---------- ٣) ضبط الحركة: وقف اللفّات اللانهائية اللي بتجهد الموبايل ---------- */
+.th .pl,.hero .pl,.pcard .h,.dk button{animation-iteration-count:3!important}
+.stories .ring:not(.seen):not(.fav),#me .pf,.pcard .r,.pav{animation-iteration-count:2!important}
+html,body{overscroll-behavior-y:none}                       /* منع سحب-للتحديث بالغلط في وضع التطبيق */
+.nav button{position:relative}
+.nav button.on::before{content:"";position:absolute;top:0;left:50%;width:26px;height:3px;margin-left:-13px;border-radius:0 0 6px 6px;
+  background:linear-gradient(90deg,#d9b86c,#5fcf8f)}
+@media (prefers-reduced-motion:reduce){#splash,#splash *{animation:none!important}}
