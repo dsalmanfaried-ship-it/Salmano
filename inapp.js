@@ -181,6 +181,9 @@ window.INAPP = {
   /* --- استكشاف: زرار "دوّر جوه التطبيق" لما تكتب بحث --- */
   const R = window.render;
   window.render = function () {
+    /* render() من غير رقم = تحديث بسيط (قلب/شفت/بحث) → من غير ما القايمة كلها تعيد حركة الدخول وتومض */
+    const A0 = document.getElementById('app');
+    if (A0) A0.classList.toggle('na', !arguments[0]);
     const r = R.apply(this, arguments);
     try {
       const A = document.getElementById('app');

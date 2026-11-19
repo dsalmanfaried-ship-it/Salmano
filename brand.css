@@ -39,3 +39,15 @@ html,body{overscroll-behavior-y:none}                       /* منع سحب-ل�
 .nav button.on::before{content:"";position:absolute;top:0;left:50%;width:26px;height:3px;margin-left:-13px;border-radius:0 0 6px 6px;
   background:linear-gradient(90deg,#d9b86c,#5fcf8f)}
 @media (prefers-reduced-motion:reduce){#splash,#splash *{animation:none!important}}
+
+/* ---------- ٤) تحديث من غير وميض ----------
+   كل ضغطة قلب/شفت/حرف في البحث كانت بتعيد رسم الصفحة، فكل الكروت كانت بتختفي وتدخل من جديد (وميض).
+   دلوقتي التحديث البسيط بيفضل ثابت، وحركة الدخول بتحصل بس لما تغيّر التبويب أو الشيخ. */
+#app.na :is(.post,.gi,.rc,.vb){animation:none!important}
+#app.na :is(.post,.stp,.sol,.dnc,.qc).rv{opacity:1!important;transform:none!important;transition:none!important}
+
+/* ---------- ٥) ظلال التحميل ----------
+   كل صورة مصغّرة كانت بتفضل تلمّع للأبد حتى بعد ما الصورة تظهر. دلوقتي بتقف أول ما الصورة تحمّل. */
+.th,.nm{animation-iteration-count:5}
+.th:has(img.ok),.nm:has(img.ok){animation:none;background:#18231f}
+
